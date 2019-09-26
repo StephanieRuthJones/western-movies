@@ -1,11 +1,32 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
+import Home from './components/Home'
+import SciFiContainer from './components/SciFiContainer'
 import MoviesContainer from './components/MoviesContainer'
 import MovieSpec from './components/MovieSpec'
 
 class App extends React.Component {
   state = {
+    scifiMovies: [{
+      id: 1,
+      title: "Fifth Element",
+      good: false
+    }, {
+      id: 1,
+      title: "2001: A Space Odyssey",
+      good: true
+    }, {
+      id: 1,
+      title: "Flubber",
+      good: false
+    },
+    {
+      id: 1,
+      title: "Back To The Future",
+      good: true
+    }],
     westernMovies: [{
       id: 1,
       title: "The Sons of Katie Elder",
@@ -51,13 +72,21 @@ class App extends React.Component {
     console.log("state", this.state.westernMovies)
     return (
       <div className="App" >
-        {this.state.currentMovie.id
-          ? <MovieSpec movie={this.state.currentMovie} switchRating={this.switchRating} />
-          : < MoviesContainer westernMovies={this.state.westernMovies} addCurrentMovie={this.addCurrentMovie} />}
+
+        <Router>
+
+          <Route path="/" render={() => <Home />} />
+          <Route path="/scifi" render={() => <SciFiContainer addCurrentMovie={this.addCurrentMovie} sciFiMovies={this.state.scifiMovies} />} />
+
+          <Route path="/westerns"
+            render={() => this.state.currentMovie.id
+              ? <MovieSpec movie={this.state.currentMovie} switchRating={this.switchRating} />
+              : < MoviesContainer westernMovies={this.state.westernMovies} addCurrentMovie={this.addCurrentMovie} />} />
+        </Router>
       </div>
     );
   }
 }
 
 export default App;
-// show page for single westernMovies
+    // show page for single westernMovies
